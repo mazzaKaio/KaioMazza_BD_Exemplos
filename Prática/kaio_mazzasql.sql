@@ -22,31 +22,32 @@ create table produto(
     descricao varchar(25),
     lote varchar(10),
     validade date,
-    valor real,
+    valor decimal(10,2),
     constraint pk_produto primary key (codprod)
 );
 
 create table compra(
 	codcompra varchar(5) not null,
     cpf varchar(11),
-    coditem char(5),
     data_compra date,
     tipo_pagamento char(1),
     constraint pk_compra primary key (codcompra),
     constraint fk_cpf_cliente foreign key (cpf) references cliente(cpf)
 );
 
+drop table item;
+
 create table item (
-	coditem char(5) not null,
-    codcompra char(5),
-    codprod varchar(8),
+	coditem char(05) not null,
+    codcompra char(05),
+    codprod varchar(08),
     quantidade real,
-    constraint pk_item primary key (coditem),
-    constraint fk_cod_compra foreign key (codcompra) references compra(codcompra),
-    constraint fk_cod_prod foreign key (codprod) references produto(codprod)
+    primary key (coditem),
+    foreign key (codcompra) references compra(codcompra),
+    foreign key (codprod) references produto(codprod)
 );
 
-	INSERT INTO cliente 
+		INSERT INTO cliente 
     (cpf, nome, rua, numero, bairro, cidade, uf, sexo, profissao) 
 VALUES
 	('11111','Pedro','Rua XV','125','Alto XV','Curitiba','PR','M','militar'),
@@ -66,7 +67,7 @@ VALUES
 	INSERT INTO produto
     (codprod, descricao,lote,validade,valor) 
 VALUES
-	('110','Queijo','QJ00101','20200130','12.50'),
+	('100','Queijo','QJ00101','20200130','12.50'),
 	('200','Leite','LT00202','20200328','4.75'),
 	('300','Requeijão','RQJ00303','20200325','22.81'),
 	('400','Manteiga','MTG00404','20200115','9.26'),
@@ -77,33 +78,34 @@ VALUES
 	('900','Leite Condensado','LTC00909','20200325','16.57'),
 	('990','Cream Cheese','CRC00909','20200325','42.31');
 	
+	
 	INSERT INTO compra
-    (codcompra, cpf,coditem,data_compra,tipo_pagamento) 
-	VALUES
-	('500','11111','990','20200225','V'),
-	('501','10121','900','20200225','V'),
-	('502','10121','991','20200325','C'),
-	('503','10321','992','20200325','V'),	
-	('504','13191','993','20200216','V'),
-	('505','15951','994','20200212','V'),
-	('506','53672','995','20200315','C'),
-	('507','15143','995','20200311','V'),
-	('508','67816','996','20200309','V'),
-	('509','13119','996','20200209','V'),
-	('510','43156','997','20200212','V'),
-	('511','42230','998','20200112','V'),
-	('512','517194','1000','20200125','V'),
-	('513','11111','1001','20200125','C'),
-	('514','42230','1002','20200110','V'),
-	('515','13191','1003','20200112','V'),	
-	('516','11111','1004','20200110','C'),
-	('517','43156','1005','20200119','V'),
-	('518','67816','1006','20200108','V'),
-	('519','67816','1007','20200106','V'),
-	('520','15951','1008','20200127','C'),
-	('521','11111','1009','20200101','V'),
-	('522','53672','1010','20200125','V'),
-	('523','10321','1003','20200330','V');
+    (codcompra,cpf,data_compra,tipo_pagamento) 
+VALUES
+	('500','11111','20200225','V'),
+	('501','10121','20200225','V'),
+	('502','10121','20200325','C'),
+	('503','10321','20200325','V'),	
+	('504','13191','20200216','V'),
+	('505','15951','20200212','V'),
+	('506','53672','20200315','C'),
+	('507','15143','20200311','V'),
+	('508','67816','20200309','V'),
+	('509','13119','20200209','V'),
+	('510','43156','20200212','V'),
+	('511','42230','20200112','V'),
+	('512','517194','20200125','V'),
+	('513','11111','20200125','C'),
+	('514','42230','20200110','V'),
+	('515','13191','20200112','V'),	
+	('516','11111','20200110','C'),
+	('517','43156','20200119','V'),
+	('518','67816','20200108','V'),
+	('519','67816','20200106','V'),
+	('520','15951','20200127','C'),
+	('521','11111','20200101','V'),
+	('522','53672','20200125','V'),
+	('523','10321','20200330','V');
 	
 	INSERT INTO item
     (coditem,codcompra,codprod,quantidade) 
