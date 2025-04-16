@@ -68,3 +68,48 @@ select CodCliente, NomeCliente, InscEstadual from cliente where InscEstadual is 
 -- 16) MOSTRAR EM ORDEM ALFABETICA A LISTA DE VENDEDORES E SEUS RESPECTIVOS SALARIOS FIXOS
 
 select CodVendedor, NomeVendedor, SalarioFixo from vendedor order by NomeVendedor;
+
+-- 17) LISTAR OS NOMES, CIDADES E ESTADOS DE TODOS OS CLIENTES
+-- ORDENADOS POR ESTADO E CIDADE DE FORMA DECRESCENTE
+
+select NomeCliente, Cidade, UF from cliente order by UF desc, Cidade desc;
+
+-- 18) MOSTRAR A DESCRIÇÃO E O VALOR UNITARIO DE TODOS OS PRODUTOS 
+-- QUE TENHAM A UNIDADE "M" EM ORDEM DO VALOR UNITARIO ASC
+
+select DescProduto, ValorUnitario, UnidProduto from produto where UnidProduto = "M" order by ValorUnitario asc;
+
+-- 19) MOSTRAR O NOVO SALARIO FIXO DOS VENDEDORES, DE FAIXA DE COMISSAO
+-- "C", CALCULANDO COM BASE NO REAJUSTE DE 75% ACRESCIDO DE R$120
+-- DE BONIFICAÇÃO, E ORDENAR PELO NOME DO VENDEDOR
+
+select CodVendedor as "Codigo vendedor", NomeVendedor as "Nome vendedor", (SalarioFixo * 1.75 + 120) as "Salario com aumento", FaixaComissao 
+from vendedor where FaixaComissao = "C" order by NomeVendedor;
+
+-- 20) MOSTRE O MENOR E O MAIOR SALARIO DA TABELA VENDEDOR
+
+select min(SalarioFixo) as "Menor Salario", max(SalarioFixo) as "Maior Salario" from vendedor;
+
+-- 21) MOSTRAR A QNT TOTAL PEDIDA PARA O PRODUTO "VINHO", DE CÓDIGO "78" NA TABELA ITEM_PEDIDO
+
+select Cod_Produto, sum(QtdeProduto) from item_pedido where Cod_Produto = 78;
+
+-- 22) QUAL A MEDIA DOS SALARIOS FIXOS DOS VENDEDORES
+
+ select avg(SalarioFixo) as "Media dos salarios fixos" from vendedor;
+ 
+ -- 23) QUANTOS VENDEDORES GANHAM ACIMA DE R$2500,00 DE SALARIO FIXO
+ 
+ select count(SalarioFixo) as "Quantos salario são > 2500" from vendedor where SalarioFixo > 2500;
+ 
+ -- 24) QUAIS AS UNIDADES DE PRODUTOS DIFERENTES NA TABELA PRODUTO
+ 
+ select distinct UnidProduto from produto;
+ 
+ -- 25) LISTAR O NUMERO DE PRODUTOS QUE CADA PEDIDO CONTEM
+ 
+ select Num_Pedido as "Numero pedido", count(QtdeProduto) as "Quantidade produto" from item_pedido group by Num_Pedido;
+ 
+ -- 26) LISTAR OS PEDIDOS QUE TEM MAIS DO QUE TRES PRODUTOS
+ 
+  select Num_Pedido as "Numero pedido", count(QtdeProduto) as "Quantidade produto" from item_pedido where count(QtdeProduto) > 3 group by Num_Pedido;
