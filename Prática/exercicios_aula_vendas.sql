@@ -126,5 +126,4 @@ cross join pedido;
 
 -- 29) QUAIS SAO OS CLIENTES QUE TEM PEDIDO E OS QUE NAO TEM PEDIDO (LEFT OUTER JOIN)
 
-select CodCliente, NomeCliente, NumPedido from cliente left join pedido on pedido.Cod_Cliente = cliente.CodCliente
-where pedido.NumPedido is null;
+select CodCliente, NomeCliente, NumPedido from cliente left join pedido on pedido.Cod_Cliente = cliente.CodCliente;
