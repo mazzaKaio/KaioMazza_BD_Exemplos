@@ -1,148 +1,148 @@
-create database Aula_Vendas;
+-- 1) LISTAR TODOS OS PRODUTOS COM A RESPECTIVCA
+-- DESCRIÇÕES, UNIDADES E VALORES UNITARIOS
 
-use Aula_Vendas;
+select DescProduto, UnidProduto, ValorUnitario from produto;
 
-create table Cliente(
-	CodCliente integer not null,
-    NomeCliente varchar(50),
-    Endereco varchar(80),
-    Cidade varchar(50),
-    CEP varchar(10),
-    UF char(2),
-    CNPJ varchar(30),
-    InscEstadual integer(10),
-    constraint pk_cliente primary key (CodCliente)
-);	
+-- 2) LISTAR DA TABELA CLIENTE, O CNPJ, NOME E ENDERECO
 
-create table Vendedor(
-	CodVendedor integer not null,
-    NomeVendedor varchar(50),
-    SalarioFixo decimal(10, 2),
-    FaixaComissao char(2),
-    constraint pk_vendedor primary key (CodVendedor)
-);
+select CNPJ, NomeCliente, Endereco from cliente;
 
-create table Produto(
-	CodProduto integer not null,
-    UnidProduto varchar(10),
-    DescProduto varchar(50),
-    ValorUnitario decimal(15, 2),
-    constraint pk_produto primary key (CodProduto)
-);
+-- 3) LISTAR TUDO DA TABELA vendedor
 
-create table Pedido(
-	NumPedido integer not null,
-    PrazoEntrega integer(10),
-    Cod_Cliente integer not null,
-    Cod_Vendedor integer not null,
-    constraint pk_numpedido primary key (NumPedido),
-    constraint fk_codcliente foreign key (Cod_Cliente) references Cliente(CodCliente),
-    constraint fk_codproduto foreign key (Cod_Vendedor) references Vendedor(CodVendedor)
-);
+select * from vendedor;
 
-create table Item_Pedido(
-	Num_Pedido integer not null,
-    Cod_Produto integer not null,
-    QtdeProduto integer not null,
-    constraint fk_numpedido_pedido foreign key (Num_Pedido) references Pedido(NumPedido),
-    constraint fk_codproduto_produto foreign key (Cod_Produto) references Produto(CodProduto)
-);
+-- 4) APRESENTE A SAIDA DE UMA CONSULTA NA TABELA VENDEDOR
+-- USANDO cabeçalho
 
-drop table item_pedido;
+select CodVendedor as MATRICULA, NomeVendedor as NOME, SalarioFixo as RENDIMENTO, FaixaComissao as COMISSAO from vendedor;
 
-insert into CLIENTE(CodCliente,NomeCliente,Endereco,Cidade,CEP,UF,CNPJ,InscEstadual)
-VALUES
-(720,'Ana','Rua 17 n. 19','Niteroi','24358310','RJ',12113231/0001-34,2134),
-(870,'Flavio','Av. Pres Vargas 10','São Paulo','22763931','SP',2253412693879,4631),
-(110,'Jorge','Rua Caiapó 13','Curitiba','30078500','PR',1451276498349,null),
-(222,'Lúcia','Rua Itabira 123 loja 09','Belo Horizonte','22124391','MG',2831521393488,2985),
-(830,'Mauricio','Av Paulista 1236 sl/2345','São Paulo','3012683','SP',3281698574656,9343),
-(130,'Edmar','Rua da Prais s/n','Salvador','30079300','BA',234632842349,7121),
-(410,'Rodolfo','Largo da Lapa 27 sobrado','Rio de Janeiro','30078900','RJ',1283512823469,7431),
-(20,'Beth','Av Climério n. 45','São Paulo','25679300','SP',3248512673268,9280),
-(157,'Paulo','Tv. Moraes c/3','Londrina',null,'PR',328482233242,1923),
-(180,'Livio','Av. Beira Mar n.1256','Florianópolis','30077500','SC',1273657123474,null),
-(260,'Susana','Rua Lopes Mendes 12','Niterói','30046500','RJ',217635712329,2530),
-(290,'Renato','Rua Meireles n. 123 bl.2 sl.345','São Paulo','30225900','SP',1327657112314,1820),
-(390,'Sebastião','Rua da Igreja n. 10','Uberaba','30438700','MG',321765472133,9071),
-(234,'José','Quadra 3 bl. 3 sl 1003','Brasilia','22841650','DF',2176357612323,2931);
+-- 5) TRAGA O NOME DO VENDEDOR E O SALARIO FIXO MULTIPLICADO POR 2
 
-insert into pedido(NumPedido,PrazoEntrega,Cod_Cliente,Cod_Vendedor)
-VALUES
-(121,20,410,209),
-(97,20,720,101),
-(101,15,720,101),
-(137,20,720,720),
-(148,20,720,101),
-(189,15,870,213),
-(104,30,110,101),
-(203,30,830,250),
-(98,20,410,209),
-(143,30,20,111),
-(105,15,180,240),
-(111,20,260,240),
-(103,20,260,11),
-(91,20,260,11),
-(138,20,260,11),
-(108,15,290,310),
-('209',20,260,240), 
-(119,30,390,250),
-(127,10,410,11);
+select NomeVendedor as NOME, (SalarioFixo * 2) as SALARIO from vendedor;
 
-INSERT INTO `vendedor`
-(`CODVENDEDOR`, `NOMEVENDEDOR`, `SALARIOFIXO`, `FAIXACOMISSAO`) 
-VALUES 
-('209', 'José', 1800.00, 'C'),
-('111', 'Carlos', 2490.00, 'A'),
-('11', 'João', 2780.00, 'C'),
-('240', 'Antonio', 9500.00, 'C'),
-('720', 'Felipe', 4600.00, 'A'),
-('213', 'Jonas', 2300.50, 'A'),
-('101', 'João', 2650.32, 'C'),
-('310', 'Josias',870.00,'B'),
-('250', 'Mauricío',2930.00, 'B');
+-- 6) LISTAR O NUMERO DO PEDIDO, O CODIGO DO PRODUTO E A QUANTIDADE DOS ITENS DOS PEDIDOS
+-- NA QUAL A QUANTIDADE É IGUAL A 35 DA TABELA item_pedido
 
-insert into PRODUTO(CodProduto,UnidProduto,DescProduto,ValorUnitario)
-VALUES
-(25,'Kg','Queijo',0.97),
-(31,'Bar','Chocolate',0.87),
-(78,'L','Vinho',2),
-(22,'M','Linho',0.11),
-(30,'SAC','Açucar',0.30),
-(53,'M','Linha',1.80),
-(13,'G','Ouro',6.18),
-(45,'M','Madeira',0.25),
-(87,'M','Cano',1.97),
-(77,'M','Papel',1.05);
+select Num_Pedido, Cod_Produto, QtdeProduto from item_pedido where QtdeProduto = 35;
 
-insert into ITEM_PEDIDO(Num_Pedido,Cod_Produto,QtdeProduto)
-VALUES
-(121,25,10),
-(121,31,35),
-(97,77,20),
-(101,31,9),
-(148,45,8),
-(148,31,7),
-(148,77,3),
-(148,25,10),
-(148,78,30),
-(104,53,32),
-(203,31,6),
-(189,78,45),
-(143,31,20),
-(105,78,10),
-(111,25,10),
-(111,78,70),
-(103,53,37),
-(91,77,40),
-(138,22,10),
-(138,77,35),
-(138,53,18),
-(108,13,17),
-(119,77,40),
-(119,13,6),
-(119,22,10),
-(119,53,43),
-(137,13,8),
-(143,78,10),
-(101,78,18);
+-- 7) LISTE OS NOMES E A CIDADE DOS CLIENTES QUE MORAM EM NITEROI
+
+select NomeCliente, Cidade from cliente where Cidade = "Niteroi";
+
+-- 8) LISTAR OS PRODUTOS QUE TENHAM UNIDADE IGUAL A "m"
+-- E VALOR IGUAL A 1.05 DE PRODUTO
+
+select DescProduto, UnidProduto, ValorUnitario from produto where UnidProduto = "m" and ValorUnitario = 1.05;
+
+-- 9) LISTE OS CLIENTES E SEUS RESPECTIVOS ENDEREÇOS QUE MORAM 
+-- EM SÃO PAULO OU ESTEJAM NA FAIXA DE CEP ENTRE 30077000 E 30079000
+
+select NomeCliente, Endereco, Cidade, CEP from cliente where Cidade = "São Paulo" or CEP between 30077000 and 30079000;
+
+-- 10) MOSTRAR TODOS OS PEDIDOS QUE NAO TENHAM PRAZO DE ENTREGA IGUAL A 15 DIAS
+
+select NumPedido, PrazoEntrega from pedido where PrazoEntrega != 15;
+
+-- 11) LISTAR O CODIGO E A DESCRICAO DOS PRODUTOS QUE TENHAM VALOR UNITARIO
+-- NA FAIXA DE 0.32 ATÉ 2.00 
+
+select CodProduto, DescProduto, ValorUnitario from produto where ValorUnitario between 0.32 and 2.00;
+
+-- 12) LISTAR TODOS OS PRODUTOS QUE TENHAM O SEU NOME COMEÇADO POR "Q"
+
+select CodProduto, DescProduto as "Nome Produto" from produto where DescProduto like ("Q%");
+
+-- 13) LISTAR TODOS OS VENDEDORES QUE NÃO COMEÇAM POR "JO"
+
+select CodVendedor, NomeVendedor from vendedor where NomeVendedor not like ("Jo%");
+
+-- 14) LISTAR OS VENDEDORES EM ORDEM ALFABETICA E QUE SÃO 
+-- DA FAIXA DE COMISSAO "A" E "B"
+
+select * from vendedor where FaixaComissao = "A" or FaixaComissao = "B" order by NomeVendedor;
+
+-- 15) MOSTRAR OS CLIENTES QUE NAO TENHAM INSCRICAO ESTADUAL
+
+select CodCliente, NomeCliente, InscEstadual from cliente where InscEstadual is null;
+
+-- 16) MOSTRAR EM ORDEM ALFABETICA A LISTA DE VENDEDORES E SEUS RESPECTIVOS SALARIOS FIXOS
+
+select CodVendedor, NomeVendedor, SalarioFixo from vendedor order by NomeVendedor;
+
+-- 17) LISTAR OS NOMES, CIDADES E ESTADOS DE TODOS OS CLIENTES
+-- ORDENADOS POR ESTADO E CIDADE DE FORMA DECRESCENTE
+
+select NomeCliente, Cidade, UF from cliente order by UF desc, Cidade desc;
+
+-- 18) MOSTRAR A DESCRIÇÃO E O VALOR UNITARIO DE TODOS OS PRODUTOS 
+-- QUE TENHAM A UNIDADE "M" EM ORDEM DO VALOR UNITARIO ASC
+
+select DescProduto, ValorUnitario, UnidProduto from produto where UnidProduto = "M" order by ValorUnitario asc;
+
+-- 19) MOSTRAR O NOVO SALARIO FIXO DOS VENDEDORES, DE FAIXA DE COMISSAO
+-- "C", CALCULANDO COM BASE NO REAJUSTE DE 75% ACRESCIDO DE R$120
+-- DE BONIFICAÇÃO, E ORDENAR PELO NOME DO VENDEDOR
+
+select CodVendedor as "Codigo vendedor", NomeVendedor as "Nome vendedor", (SalarioFixo * 1.75 + 120) as "Salario com aumento", FaixaComissao 
+from vendedor where FaixaComissao = "C" order by NomeVendedor;
+
+-- 20) MOSTRE O MENOR E O MAIOR SALARIO DA TABELA VENDEDOR
+
+select min(SalarioFixo) as "Menor Salario", max(SalarioFixo) as "Maior Salario" from vendedor;
+
+-- 21) MOSTRAR A QNT TOTAL PEDIDA PARA O PRODUTO "VINHO", DE CÓDIGO "78" NA TABELA ITEM_PEDIDO
+
+select Cod_Produto, sum(QtdeProduto) from item_pedido where Cod_Produto = 78;
+
+-- 22) QUAL A MEDIA DOS SALARIOS FIXOS DOS VENDEDORES
+
+ select avg(SalarioFixo) as "Media dos salarios fixos" from vendedor;
+ 
+ -- 23) QUANTOS VENDEDORES GANHAM ACIMA DE R$2500,00 DE SALARIO FIXO
+ 
+ select count(SalarioFixo) as "Quantos salario são > 2500" from vendedor where SalarioFixo > 2500;
+ 
+ -- 24) QUAIS AS UNIDADES DE PRODUTOS DIFERENTES NA TABELA PRODUTO
+ 
+ select distinct UnidProduto from produto;
+ 
+ -- 25) LISTAR O NUMERO DE PRODUTOS QUE CADA PEDIDO CONTEM
+ 
+ select Num_Pedido as "Numero pedido", count(QtdeProduto) as "Quantidade produto" from item_pedido group by Num_Pedido;
+ 
+ -- 26) LISTAR OS PEDIDOS QUE TEM MAIS DO QUE TRES PRODUTOS
+ 
+  select Num_Pedido as "Numero pedido", count(QtdeProduto) as "Quantidade produto" from item_pedido group by Num_Pedido having count(QtdeProduto) > 3;
+  
+-- 27) VER OS PEDIDOS DE CADA CLIENTE (nome cliente, cod cliente e num pedido - usar JOIN)
+
+select c.NomeCliente, c.CodCliente, p.NumPedido from pedido as p 
+join cliente as c on c.CodCliente = p.Cod_Cliente;
+
+-- 28) JUNTAR CLIENTES COM PEDIDOS (Nome cliente, cod cliente, num pedido)
+
+select * from cliente
+cross join pedido;
+
+-- 29) QUAIS SAO OS CLIENTES QUE TEM PEDIDO E OS QUE NAO TEM PEDIDO (LEFT OUTER JOIN)
+
+select CodCliente, NomeCliente, NumPedido from cliente left join pedido on pedido.Cod_Cliente = cliente.CodCliente;
+
+-- 30) QUAIS CLIENTES TEM PRAZO DE ENTREGA SUPERIOR A 15 DIAS E PERTENCEM AOS ESTADOS DE SP E RJ
+
+select distinct c.CodCliente, c.NomeCliente, c.UF, p.PrazoEntrega from cliente as c
+join pedido as p on p.Cod_Cliente = c.CodCliente
+where p.PrazoEntrega > 15 and (c.UF = "SP" or c.UF = "RJ");
+
+-- 31) MOSTRAR OS CLIENTE E SEUS RESPECTIVOS PRAZOS DE ENTREGA, ORDENANDO DO MAIOR PARA O MENOR
+
+select distinct c.NomeCliente, p.PrazoEntrega from cliente as c
+join pedido as p on p.Cod_Cliente = c.CodCliente 
+order by p.PrazoEntrega desc;
+
+-- 32) APRESENTAR OS VENDEDORES (ORDENADOS) QUE EMITIRAM PEDIDOS COM PRAZOS 
+-- DE ENTREGA SUPERIORES A 15 DIAS E TENHAM SALARIOS FIXOS IGUAIS OU SUPERIOR A R$1000,00
+
+select v.CodVendedor, v.NomeVendedor, v.SalarioFixo, p.PrazoEntrega from vendedor as v
+join pedido as p on p.Cod_Vendedor = v.CodVendedor
+where p.PrazoEntrega > 15 and v.SalarioFixo >= 1000.00 order by v.NomeVendedor;

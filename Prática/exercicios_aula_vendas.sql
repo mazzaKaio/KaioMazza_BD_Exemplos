@@ -127,3 +127,31 @@ cross join pedido;
 -- 29) QUAIS SAO OS CLIENTES QUE TEM PEDIDO E OS QUE NAO TEM PEDIDO (LEFT OUTER JOIN)
 
 select CodCliente, NomeCliente, NumPedido from cliente left join pedido on pedido.Cod_Cliente = cliente.CodCliente;
+
+-- 30) QUAIS CLIENTES TEM PRAZO DE ENTREGA SUPERIOR A 15 DIAS E PERTENCEM AOS ESTADOS DE SP E RJ
+
+select distinct c.CodCliente, c.NomeCliente, c.UF, p.PrazoEntrega from cliente as c
+join pedido as p on p.Cod_Cliente = c.CodCliente
+where p.PrazoEntrega > 15 and (c.UF = "SP" or c.UF = "RJ");
+
+-- 31) MOSTRAR OS CLIENTE E SEUS RESPECTIVOS PRAZOS DE ENTREGA, ORDENANDO DO MAIOR PARA O MENOR
+
+select distinct c.NomeCliente, p.PrazoEntrega from cliente as c
+join pedido as p on p.Cod_Cliente = c.CodCliente 
+order by p.PrazoEntrega desc;
+
+-- 32) APRESENTAR OS VENDEDORES (ORDENADOS) QUE EMITIRAM PEDIDOS COM PRAZOS 
+-- DE ENTREGA SUPERIORES A 15 DIAS E TENHAM SALARIOS FIXOS IGUAIS OU SUPERIOR A R$1000,00
+
+select distinct v.CodVendedor, v.NomeVendedor, v.SalarioFixo, p.PrazoEntrega from vendedor as v
+join pedido as p on p.Cod_Vendedor = v.CodVendedor
+where p.PrazoEntrega > 15 and v.SalarioFixo >= 1000.00 order by v.NomeVendedor;
+
+-- 33) MOSTRE OS CLIENTES (ORDENADOS) QUE TEM PRAZO DE ENTREGA 
+-- MAIOR QUE 15 DIAS PARA O PRODUTO "QUEIJO" E SEJAM DO RIO DE JANEIRO (UF)
+
+select c.NomeCliente, c.UF, prod.DescProduto, p.PrazoEntrega from cliente as c
+inner join pedido as p on c.CodCliente = p.Cod_Cliente
+inner join item_pedido as ip on p.NumPedido = ip.Num_Pedido
+inner join produto as prod on prod.CodProduto = ip.Cod_Produto
+where p.PrazoEntrega > 15 and prod.DescProduto = "Queijo" and c.UF = "RJ" order by c.NomeCliente;
