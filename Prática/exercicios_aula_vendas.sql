@@ -112,4 +112,19 @@ select Cod_Produto, sum(QtdeProduto) from item_pedido where Cod_Produto = 78;
  
  -- 26) LISTAR OS PEDIDOS QUE TEM MAIS DO QUE TRES PRODUTOS
  
-  select Num_Pedido as "Numero pedido", count(QtdeProduto) as "Quantidade produto" from item_pedido where count(QtdeProduto) > 3 group by Num_Pedido;
+  select Num_Pedido as "Numero pedido", count(QtdeProduto) as "Quantidade produto" from item_pedido group by Num_Pedido having count(QtdeProduto) > 3;
+  
+-- 27) VER OS PEDIDOS DE CADA CLIENTE (nome cliente, cod cliente e num pedido - usar JOIN)
+
+select c.NomeCliente, c.CodCliente, p.NumPedido from pedido as p 
+join cliente as c on c.CodCliente = p.Cod_Cliente;
+
+-- 28) JUNTAR CLIENTES COM PEDIDOS (Nome cliente, cod cliente, num pedido)
+
+select * from cliente
+cross join pedido;
+
+-- 29) QUAIS SAO OS CLIENTES QUE TEM PEDIDO E OS QUE NAO TEM PEDIDO (LEFT OUTER JOIN)
+
+select CodCliente, NomeCliente, NumPedido from cliente left join pedido on pedido.Cod_Cliente = cliente.CodCliente
+where pedido.NumPedido is null;

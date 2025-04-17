@@ -48,6 +48,8 @@ create table Item_Pedido(
     constraint fk_codproduto_produto foreign key (Cod_Produto) references Produto(CodProduto)
 );
 
+drop table item_pedido;
+
 insert into CLIENTE(CodCliente,NomeCliente,Endereco,Cidade,CEP,UF,CNPJ,InscEstadual)
 VALUES
 (720,'Ana','Rua 17 n. 19','Niteroi','24358310','RJ',12113231/0001-34,2134),
@@ -141,4 +143,6 @@ VALUES
 (119,13,6),
 (119,22,10),
 (119,53,43),
-(137,13,8);
+(137,13,8),
+(143,78,10),
+(101,78,18);
