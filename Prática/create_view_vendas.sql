@@ -1,0 +1,1 @@
+create view v as select Qtde, Preco, Qtde*Preco as Valor from vendas_view;
