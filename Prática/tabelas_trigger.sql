@@ -1,3 +1,5 @@
+create database teste_trigger;
+
 create table produtos (
 	referencia varchar(3) primary key,
     descricao varchar(50) unique,
@@ -19,5 +21,7 @@ insert into itensvenda (venda, produto, quantidade) values
 (1, "001", 3),
 (1, "002", 1),
 (1, "003", 5);
+
+SET SQL_SAFE_UPDATES = 0;
 
 delete from itensvenda where venda = 1 and produto = "001";
